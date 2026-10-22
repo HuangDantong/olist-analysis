@@ -640,7 +640,7 @@ def main() -> int:
             "forecast = fit.get_forecast(steps=6)",
         ],
         "B Gitee/github仓库链接与目录结构": [
-            "仓库链接：https://github.com/<your-account>/olist-analysis（提交前替换为真实公开链接）",
+            "仓库链接：https://github.com/HuangDantong/olist-analysis",
             "",
             "olist-analysis/",
             "├─ data/raw/           # 原始数据（git 忽略）",
