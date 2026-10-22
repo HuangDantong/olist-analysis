@@ -50,7 +50,7 @@ python scripts/08_write_paper.py       # 按学校模板生成论文初稿（Wor
 | 清洗报告 | `docs/cleaning_report.md` |
 | 模型报告 | `docs/models_report.md` |
 | 论文框架 | `docs/paper_outline.md`、`docs/论文框架.docx` |
-| 论文正文初稿 | `docs/paper_draft.md`；Word 版生成到 `../大作业/Olist商业数据分析_论文初稿.docx` |
+| 论文正文初稿 | `docs/paper_draft.md`；Word 版由 `scripts/08_write_paper.py` 在本地生成，不随仓库提交 |
 | 教材模板图（15 张） | `outputs/figures/templates/`；索引 `docs/template_charts.md` |
 | 业务图（10 张） | `outputs/figures/business/` |
 | 大屏截图 | `outputs/figures/dashboard_preview.png`、`dashboard_tab1—4.png` |
@@ -61,7 +61,7 @@ python scripts/08_write_paper.py       # 按学校模板生成论文初稿（Wor
 
 - 写作框架：`docs/paper_outline.md`
 - 正文初稿（Markdown）：`docs/paper_draft.md`
-- Word 初稿：`../大作业/Olist商业数据分析_论文初稿.docx`
+- Word 初稿：由 `scripts/08_write_paper.py` 在本地生成，默认输出到 `../大作业/Olist商业数据分析_论文初稿.docx`，不随仓库提交
 - 重新生成：`python scripts/08_write_paper.py`
 - 自定义学校模板/输出路径：
   ```bash
