@@ -1,0 +1,2 @@
+sheet=13 对比折线图  chart_objects=1
+  obj1  w=416.00pt h=311.00pt  left=260.00pt top=14.00pt  -> chart13_excel.png

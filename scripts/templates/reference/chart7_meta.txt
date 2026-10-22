@@ -1,0 +1,2 @@
+sheet=7 蝴蝶图  (单元格 REPT 柱形)
+  w=357.00pt h=195.00pt  -> chart7_excel.png

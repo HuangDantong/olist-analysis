@@ -1,0 +1,2 @@
+sheet=6 蝴蝶图  chart_objects=1
+  obj1  w=416.00pt h=294.00pt  left=52.00pt top=114.50pt  -> chart6_excel.png

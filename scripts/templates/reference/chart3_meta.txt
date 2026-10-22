@@ -1,0 +1,2 @@
+sheet=3 渐变圆角柱形图  chart_objects=1
+  obj1  w=416.00pt h=308.13pt  left=208.00pt top=13.87pt  -> chart3_excel.png

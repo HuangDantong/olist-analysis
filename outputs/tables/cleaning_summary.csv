@@ -1,0 +1,11 @@
+﻿table,raw_rows,clean_rows,clean_cols
+orders,99441.0,99441,19
+order_items,112650.0,112650,14
+payments,103886.0,103886,5
+reviews,99224.0,99224,10
+customers,99441.0,99441,5
+products,32951.0,32951,14
+sellers,3095.0,3095,4
+geolocation,1000163.0,19015,6
+category_translation,71.0,71,2
+orders_enriched,,99441,36

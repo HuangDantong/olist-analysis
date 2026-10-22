@@ -1,0 +1,2 @@
+sheet=5 层叠柱形图  chart_objects=1
+  obj1  w=416.00pt h=294.00pt  left=260.00pt top=14.00pt  -> chart5_excel.png

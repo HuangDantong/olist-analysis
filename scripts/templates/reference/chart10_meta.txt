@@ -1,0 +1,2 @@
+sheet=10 甘特图  chart_objects=1
+  obj1  w=442.88pt h=294.00pt  left=494.62pt top=29.50pt  -> chart10_excel.png

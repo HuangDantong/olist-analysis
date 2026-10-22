@@ -1,0 +1,2 @@
+sheet=11 平滑折线图  chart_objects=1
+  obj1  w=416.00pt h=308.13pt  left=260.00pt top=13.87pt  -> chart11_excel.png

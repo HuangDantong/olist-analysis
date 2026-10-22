@@ -1,0 +1,24 @@
+# ---- 数据文件：体积大，不入库，按 README 一键下载 ----
+data/raw/*
+!data/raw/.gitkeep
+data/clean/*
+!data/clean/.gitkeep
+!data/clean/README.md
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# ---- 系统 / 编辑器 ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- 临时文件 ----
+*.tmp
+*.part

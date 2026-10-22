@@ -1,0 +1,2 @@
+sheet=12 菱形走势图  chart_objects=1
+  obj1  w=416.19pt h=294.75pt  left=260.00pt top=14.00pt  -> chart12_excel.png

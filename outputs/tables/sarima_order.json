@@ -1,0 +1,23 @@
+{
+  "selected_model": "ARIMA(1,1,1)",
+  "order": [
+    1,
+    1,
+    1
+  ],
+  "seasonal_order": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "train_months": 14,
+  "test_months": 6,
+  "rmse": 67581.72063481652,
+  "mape": 5.5888068480468345,
+  "naive_rmse": 489873.4184729331,
+  "naive_mape": 50.55917164654454,
+  "future_6m_mean": 861871.8079423312,
+  "series_start": "2017-01",
+  "series_end": "2018-08"
+}

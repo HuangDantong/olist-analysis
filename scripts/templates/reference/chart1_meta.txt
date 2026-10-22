@@ -1,0 +1,2 @@
+sheet=1 渐变柱形图  chart_objects=1
+  obj1  w=416.00pt h=308.75pt  left=208.00pt top=14.00pt  -> chart1_excel.png

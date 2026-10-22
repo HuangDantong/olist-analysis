@@ -1,0 +1,2 @@
+sheet=15 水球图  chart_objects=1
+  obj1  w=187.25pt h=186.00pt  left=312.00pt top=109.00pt  -> chart15_excel.png

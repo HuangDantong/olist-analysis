@@ -1,0 +1,2 @@
+sheet=2 带均值柱形图  chart_objects=1
+  obj1  w=416.00pt h=296.87pt  left=366.50pt top=13.50pt  -> chart2_excel.png

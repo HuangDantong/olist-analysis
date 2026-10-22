@@ -1,0 +1,2 @@
+sheet=9 对比柱形图  chart_objects=1
+  obj1  w=416.00pt h=322.50pt  left=312.00pt top=14.00pt  -> chart9_excel.png
