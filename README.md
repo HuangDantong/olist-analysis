@@ -78,6 +78,10 @@ python scripts/09_build_paper.py       # 重新生成 + 导出 PDF + 同步 docs
 - **改内容**（文字、表格、图注、章节）：编辑 `scripts/08_write_paper.py` → 运行 `python scripts/09_build_paper.py`（自动重建 Word、导出 PDF、同步到 `docs/论文终稿.pdf`）→ commit + push。
 - **只改排版**（Word 里的字体、行距、图片位置）：直接编辑 `../大作业/Olist商业数据分析_论文终稿.docx` → 运行 `python scripts/09_build_paper.py --pdf-only`（不重建 Word，保留手工排版）→ commit + push。
 - 不要直接改 `docs/paper_draft.md` 当最终稿：它是 `08_write_paper.py` 生成的 Markdown 产物，下次运行会被覆盖。
+- 若 `git push` 提示 `Connection was reset`（GitHub HTTPS 被网络阻断），改用 SSH 443 端口推送：
+  ```bash
+  git push ssh://git@ssh.github.com:443/HuangDantong/olist-analysis.git main
+  ```
 
 ## 目录结构
 
