@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-08_write_paper.py —— 按学校模板生成论文初稿（Word + Markdown）
+08_write_paper.py —— 按学校模板生成论文终稿（Word + Markdown）
 
 输入模板：
     D:\\大数据分析及数据可视化\\大作业\\5、《商业数据分析》 - 期末大作业模板.docx
 输出：
-    D:\\大数据分析及数据可视化\\大作业\\Olist商业数据分析_论文初稿.docx
+    D:\\大数据分析及数据可视化\\大作业\\Olist商业数据分析_论文终稿.docx
     docs/paper_draft.md
 
 用法：
@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 import docx
-from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
@@ -35,7 +35,7 @@ TEMPLATE = Path(os.environ.get(
 ))
 OUT_DOCX = Path(os.environ.get(
     "PAPER_OUT",
-    r"D:\大数据分析及数据可视化\大作业\Olist商业数据分析_论文初稿.docx",
+    r"D:\大数据分析及数据可视化\大作业\Olist商业数据分析_论文终稿.docx",
 ))
 OUT_MD = ROOT / "docs" / "paper_draft.md"
 
@@ -46,20 +46,21 @@ DASH = ROOT / "outputs" / "figures" / "dashboard_preview.png"
 TITLE = "Olist 巴西电商客户分层与销售预测"
 AUTHOR = "黄丹彤"
 COLLEGE = "（嘉兴大学 数据科学学院）"
+CLASS_NAME = "大数据241"
+STUDENT_ID = "20244599851004"
+GROUP_INFO = "组员分工：独立完成（黄丹彤）"
 DATE = "2026 年 11 月"
 
+# 摘要按学校模板控制在 200—300 字（含标点 299 字）
 ABSTRACT = (
-    "本文以 Olist 巴西电商公开数据集为研究对象，基于 2016—2018 年的 99,441 个订单、"
-    "112,650 条商品明细和 99,224 条评价，构建从数据获取、清洗治理、商业建模到可视化大屏的"
-    "端到端分析链路。在完成多表关联、缺失值处理和指标派生后，使用 RFM 八分层、同期群留存、"
-    "ABC/Pareto、波士顿矩阵、SARIMA 和订单漏斗模型，识别客户价值结构、复购规律、品类贡献与"
-    "销售趋势；同时复现教材 15 张模板图、绘制 10 张业务图并搭建 Streamlit 交互式大屏。"
-    "研究发现：约 47.5% 的高价值客户贡献 78.0% 的 GMV；首购后第 1 个月平均留存率仅 0.44%；"
-    "25.9% 的商品贡献 80.0% 的 GMV；延迟 4 天以上订单的平均评分由 4.29 降至 2.32；"
-    "ARIMA(1,1,1) 的六个月回测 MAPE 为 5.59%。研究结果可为电商客户运营、品类管理、"
-    "物流优化与销售预测提供参考。"
+    "本文以 Olist 电商数据集为对象，基于 2016—2018 年的 99,441 个订单与 112,650 条商品明细，"
+    "构建从获取、清洗、建模到可视化大屏的端到端分析链路。使用 RFM 八分层、同期群留存、"
+    "ABC/Pareto、波士顿矩阵与 ARIMA 预测，识别客户价值、复购规律、品类贡献和销售趋势；"
+    "复现教材 15 张模板图、绘制 10 张业务图并搭建 Streamlit 大屏。研究发现：47.5% 的高价值客户"
+    "贡献 78% 的 GMV，首月留存仅 0.44%，25.9% 的商品贡献 80% 的 GMV，ARIMA 回测 MAPE 为 5.59%。"
+    "研究可为电商运营与销售预测提供参考。"
 )
-KEYWORDS = "电商数据分析；RFM 模型；同期群分析；波士顿矩阵；SARIMA；可视化大屏"
+KEYWORDS = "电商数据分析；RFM 模型；同期群分析；SARIMA；可视化大屏"
 
 
 def B(text: str):
@@ -244,7 +245,11 @@ SECTIONS = [
         B("复现教材第二章前 15 套模板：渐变柱形、带均值柱形、渐变圆角柱形、标注柱形、层叠柱形、蝴蝶图、REPT 蝴蝶、数值百分比、"
           "对比柱形、甘特图、平滑折线、菱形走势、对比折线、单值圆环、水球图。方法是从 xlsx 的 chart XML 解析颜色、字号、渐变、"
           "布局与标注位置，用 matplotlib 逐像素还原；15 张图平均通道误差 1.61—5.76/255，像素一致率 87.42%—96.43%，"
-          "交付图为 200 dpi。图 1、图 5、图 8、图 10、图 14 为代表性示例，其余见附录 C。"),
+          "交付图为 200 dpi。图 1、图 5、图 8、图 10、图 14 为代表性示例，完整 15 张见附录 C。"),
+        B("与 Excel 实现相比，Python 方案把配色、字号、渐变和标注位置写成可复用参数：Excel 模板依赖手工拖拽和逐图调整，"
+          "换一批数据就要重新排版；本项目从工作簿的 chart XML 读取颜色、渐变与布局，用 matplotlib 还原后，同一脚本可批量换数出图，"
+          "并直接导出 200 dpi 位图和矢量图。代价是前期解析 XML、调试中文字体的成本更高，但可复现性和批量生产能力明显更强；"
+          "对于联动筛选与下钻，Excel 静态图无法实现，而 Streamlit 大屏可以通过筛选器实时联动。"),
         F(FIG_T / "fig01_渐变柱形图.png", "图 1 渐变柱形图（模板复现）"),
         F(FIG_T / "fig05_层叠柱形图.png", "图 5 层叠柱形图（模板复现）"),
         F(FIG_T / "fig08_数值百分比.png", "图 8 数值百分比（模板复现）"),
@@ -282,12 +287,9 @@ SECTIONS = [
     ("商业建议", 2, [
         B("（1）客户分层运营：对“重要挽留”客户做 30/60/90 天召回，对“重要发展”客户发二次购买券，对“重要价值/保持”客户提供会员等级与专属客服。"),
         B("（2）提升复购：首购后 30 天触发品类交叉推荐，60 天触发免运费券，90 天触发老客专属折扣；按品类复购周期设计触达节奏。"),
-        B("（3）商品与库存：A 类商品保库存、保曝光；B 类做组合销售；C 类做长尾清理。不要只盯少数爆款，A 类是 8,478 个 SKU 的集合。"),
-        B("（4）品类策略：明星品类加大投放；现金牛品类维持份额、控制成本；问题品类小步测试；瘦狗品类收缩 SKU。"),
-        B("（5）物流体验：按承运商与州考核时效；对预计延迟订单主动通知与补偿；把承诺送达时间纳入商品页，降低“延迟 4 天以上”的差评。"),
-        B("（6）支付结构：保留 Boleto，优化信用卡分期展示；用代金券做召回与清库存，提升借记卡与代金券的使用率。"),
-        B("（7）预测与备货：用预测中值做预算、用 95% 区间上限做备货与人力弹性，每月滚动更新，避免只按点预测备货。"),
-        B("（8）履约漏斗：对取消原因分类（支付失败、库存不可用、客户主动取消），优先修复可运营环节，把履约稳定性纳入承运商与库存考核。"),
+        B("（3）商品与品类策略：A 类商品保库存、保曝光，B 类做组合销售，C 类清理长尾；明星品类加大投放，现金牛维持份额、控制成本，问题品类小步测试，瘦狗品类收缩 SKU。"),
+        B("（4）物流与履约体验：按承运商与州考核时效，对预计延迟订单主动通知与补偿，把承诺送达时间纳入商品页；对取消原因分类（支付失败、库存不可用、客户主动取消），优先修复可运营环节，把履约稳定性纳入承运商与库存考核。"),
+        B("（5）支付、预测与备货：保留 Boleto，优化信用卡分期展示，用代金券做召回与清库存；用预测中值做预算、95% 区间上限做备货与人力弹性，每月滚动更新，避免只按点预测备货。"),
     ]),
 
     ("结论与展望", 1, [B("本章总结研究结论、研究局限与后续改进方向，并披露 AI 工具的使用情况。")]),
@@ -324,8 +326,27 @@ REFERENCES = [
     "Plotly. Plotly Python Open Source Graphing Library[EB/OL]. https://plotly.com/python/.",
 ]
 
+TEMPLATE_CHARTS = [
+    ("fig01_渐变柱形图.png", "图 1 渐变柱形图"),
+    ("fig02_带均值柱形图.png", "图 2 带均值柱形图"),
+    ("fig03_渐变圆角柱形图.png", "图 3 渐变圆角柱形图"),
+    ("fig04_标注柱形图.png", "图 4 标注柱形图"),
+    ("fig05_层叠柱形图.png", "图 5 层叠柱形图"),
+    ("fig06_蝴蝶图.png", "图 6 蝴蝶图"),
+    ("fig07_REPT蝴蝶图.png", "图 7 REPT 蝴蝶图"),
+    ("fig08_数值百分比.png", "图 8 数值百分比"),
+    ("fig09_对比柱形图.png", "图 9 对比柱形图"),
+    ("fig10_甘特图.png", "图 10 甘特图"),
+    ("fig11_平滑折线图.png", "图 11 平滑折线图"),
+    ("fig12_菱形走势图.png", "图 12 菱形走势图"),
+    ("fig13_对比折线图.png", "图 13 对比折线图"),
+    ("fig14_单值圆环图.png", "图 14 单值圆环图"),
+    ("fig15_水球图.png", "图 15 水球图"),
+]
+
 CHART_INDEX = [
-    ["图 1—15", "outputs/figures/templates/fig01—fig15", "教材模板复现（15 张，200 dpi）"],
+    *[[f"图 {i}", name, name.split("_", 1)[1].removesuffix(".png")]
+      for i, (name, _cap) in enumerate(TEMPLATE_CHARTS, 1)],
     ["图 16", "fig16_月度GMV与预测.png", "月度 GMV 与六个月预测"],
     ["图 17", "fig17_RFM分层贡献.png", "RFM 八分层 GMV 贡献"],
     ["图 18", "fig18_同期群留存热力图.png", "同期群留存热力图"],
@@ -444,6 +465,37 @@ def add_figure(cursor: Paragraph, path: Path, caption: str, width_cm: float) -> 
     return add_caption(p, caption)
 
 
+def add_figure_grid(doc, cursor: Paragraph, items: list[tuple[str, str]],
+                    cols: int = 4, width_cm: float = 3.4) -> Paragraph:
+    """把模板图按 cols 列排成缩略图网格，用于附录 C。"""
+    rows = (len(items) + cols - 1) // cols
+    table = doc.add_table(rows=rows, cols=cols)
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    table.autofit = False
+    cursor._p.addnext(table._tbl)
+    for idx, (name, caption) in enumerate(items):
+        r, c = divmod(idx, cols)
+        cell = table.cell(r, c)
+        cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+        p = cell.paragraphs[0]
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        path = FIG_T / name
+        if path.is_file():
+            p.add_run().add_picture(str(path), width=Cm(width_cm))
+        else:
+            set_run(p.add_run(f"【缺失】{name}"), "宋体", 9)
+        cap = cell.add_paragraph()
+        cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        cap.paragraph_format.space_after = Pt(2)
+        set_run(cap.add_run(caption), "宋体", 8.5)
+    for row in table.rows:
+        trPr = row._tr.get_or_add_trPr()
+        trPr.append(OxmlElement("w:cantSplit"))
+    after = OxmlElement("w:p")
+    table._tbl.addnext(after)
+    return Paragraph(after, cursor._parent)
+
+
 def find_heading(doc, prefix: str, level: int | None):
     for p in doc.paragraphs:
         if level is not None and p.style.name != f"Heading {level}":
@@ -457,8 +509,8 @@ def fill_cover(doc):
     cover = {
         3: f"题　　目：{TITLE}",
         4: "学　　院：数据科学学院",
-        5: "专业班级：________________",
-        6: "学　　号：________________",
+        5: f"专业班级：{CLASS_NAME}",
+        6: f"学　　号：{STUDENT_ID}",
         7: f"姓　　名：{AUTHOR}",
         8: f"完成日期：{DATE}",
     }
@@ -501,6 +553,13 @@ def fill_cover(doc):
 
     # 删除红色提示
     p_note._element.getparent().remove(p_note._element)
+
+    # 封面补组员分工（放在完成日期之后，避免打乱上面的固定段落索引）
+    p_group = new_after(doc.paragraphs[8])
+    p_group.alignment = doc.paragraphs[8].alignment
+    p_group.paragraph_format.first_line_indent = \
+        doc.paragraphs[8].paragraph_format.first_line_indent
+    set_run(p_group.add_run(GROUP_INFO), "楷体_GB2312", 14)
 
 
 def write_markdown():
@@ -667,11 +726,14 @@ def main() -> int:
             set_run(run, "Consolas" if line.startswith(("import", "from", "snapshot", "rfm", "model", "fit", "forecast", ")", "    ")) else "宋体", 9)
             cursor = np
 
-    # 图表索引
+    # 图表索引 + 15 张模板图缩略图网格
     p = find_heading(doc, "C 图表索引", None)
     if p is not None:
-        add_table(doc, p, "表 C1 图表索引", ["图号", "文件", "说明"], CHART_INDEX,
-                  widths=[2.8, 7.6, 4.2])
+        cursor = add_table(doc, p, "表 C1 图表索引", ["图号", "文件", "说明"], CHART_INDEX,
+                           widths=[2.2, 7.4, 5.0], font_size=9)
+        cursor = add_body(cursor, "注：模板图位于 outputs/figures/templates/，业务图位于 "
+                                  "outputs/figures/business/；以下为 15 张模板复现图缩略图。")
+        add_figure_grid(doc, cursor, TEMPLATE_CHARTS, cols=4, width_cm=3.4)
 
     remove_empty_paragraphs(doc)
     OUT_DOCX.parent.mkdir(parents=True, exist_ok=True)
@@ -685,7 +747,7 @@ def main() -> int:
         )
         return 1
     write_markdown()
-    print(f"已生成 Word 初稿: {OUT_DOCX}")
+    print(f"已生成 Word 终稿: {OUT_DOCX}")
     print(f"已生成 Markdown: {OUT_MD}")
     return 0
 

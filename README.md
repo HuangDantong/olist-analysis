@@ -12,7 +12,7 @@
 - **模型**：RFM 客户分层、同期群留存、ABC/Pareto、波士顿矩阵、SARIMA 销售预测；
 - **可视化**：教材前 15 套模板复现 + 10 张真实业务图表；
 - **大屏**：Streamlit 交互式看板，支持日期、州、品类、订单状态联动筛选；
-- **论文**：`docs/paper_outline.md`（框架）+ `docs/paper_draft.md`（正文初稿）+ `docs/论文框架.docx`（Word 骨架）；`scripts/08_write_paper.py` 可按学校模板生成 Word 初稿。
+- **论文**：`docs/paper_outline.md`（框架）+ `docs/paper_draft.md`（论文正文）+ `docs/论文框架.docx`（Word 骨架）；`scripts/08_write_paper.py` 可按学校模板生成 Word 终稿。
 
 ## 快速开始
 
@@ -39,7 +39,8 @@ python scripts/04_visuals_templates.py # 教材模板复现 15 张
 python scripts/05_visuals_business.py  # 10 张真实业务图表
 python scripts/06_dashboard.py         # Streamlit 大屏（需用 streamlit run）
 python scripts/07_paper_skeleton.py    # 生成 docs/论文框架.docx
-python scripts/08_write_paper.py       # 按学校模板生成论文初稿（Word + Markdown）
+python scripts/08_write_paper.py       # 按学校模板生成论文终稿（Word + Markdown）
+python scripts/09_build_paper.py       # 重新生成 + 导出 PDF + 同步 docs/论文终稿.pdf
 ```
 
 ## 成果预览
@@ -50,7 +51,8 @@ python scripts/08_write_paper.py       # 按学校模板生成论文初稿（Wor
 | 清洗报告 | `docs/cleaning_report.md` |
 | 模型报告 | `docs/models_report.md` |
 | 论文框架 | `docs/paper_outline.md`、`docs/论文框架.docx` |
-| 论文正文初稿 | `docs/paper_draft.md`；Word 版由 `scripts/08_write_paper.py` 在本地生成，不随仓库提交 |
+| 论文终稿 PDF | `docs/论文终稿.pdf`（23 页，含封面、正文与附录） |
+| 论文正文 | `docs/paper_draft.md`；Word 终稿由 `scripts/08_write_paper.py` 在本地生成，不随仓库提交 |
 | 教材模板图（15 张） | `outputs/figures/templates/`；索引 `docs/template_charts.md` |
 | 业务图（10 张） | `outputs/figures/business/` |
 | 大屏截图 | `outputs/figures/dashboard_preview.png`、`dashboard_tab1—4.png` |
@@ -60,13 +62,22 @@ python scripts/08_write_paper.py       # 按学校模板生成论文初稿（Wor
 ## 论文
 
 - 写作框架：`docs/paper_outline.md`
-- 正文初稿（Markdown）：`docs/paper_draft.md`
-- Word 初稿：由 `scripts/08_write_paper.py` 在本地生成，默认输出到 `../大作业/Olist商业数据分析_论文初稿.docx`，不随仓库提交
+- 提交版 PDF：`docs/论文终稿.pdf`（23 页，含封面、正文、参考文献与附录 C 图表索引）
+- 正文（Markdown）：`docs/paper_draft.md`
+- Word 终稿：由 `scripts/08_write_paper.py` 在本地生成，默认输出到 `../大作业/Olist商业数据分析_论文终稿.docx`，不随仓库提交
 - 重新生成：`python scripts/08_write_paper.py`
 - 自定义学校模板/输出路径：
   ```bash
-  PAPER_TEMPLATE="D:/path/to/模板.docx" PAPER_OUT="D:/path/to/论文初稿.docx" python scripts/08_write_paper.py
+  PAPER_TEMPLATE="D:/path/to/模板.docx" PAPER_OUT="D:/path/to/论文终稿.docx" python scripts/08_write_paper.py
   ```
+
+### 后续修改流程
+
+论文内容的唯一源文件是 `scripts/08_write_paper.py` 中的 `ABSTRACT`、`KEYWORDS` 和 `SECTIONS`：
+
+- **改内容**（文字、表格、图注、章节）：编辑 `scripts/08_write_paper.py` → 运行 `python scripts/09_build_paper.py`（自动重建 Word、导出 PDF、同步到 `docs/论文终稿.pdf`）→ commit + push。
+- **只改排版**（Word 里的字体、行距、图片位置）：直接编辑 `../大作业/Olist商业数据分析_论文终稿.docx` → 运行 `python scripts/09_build_paper.py --pdf-only`（不重建 Word，保留手工排版）→ commit + push。
+- 不要直接改 `docs/paper_draft.md` 当最终稿：它是 `08_write_paper.py` 生成的 Markdown 产物，下次运行会被覆盖。
 
 ## 目录结构
 
@@ -84,7 +95,8 @@ olist-analysis/
 │  ├─ 05_visuals_business.py    # 10 张真实业务图表
 │  ├─ 06_dashboard.py       # Streamlit 交互式大屏
 │  ├─ 07_paper_skeleton.py  # 生成论文 Word 框架
-│  ├─ 08_write_paper.py     # 按学校模板生成论文初稿
+│  ├─ 08_write_paper.py     # 按学校模板生成论文终稿
+│  ├─ 09_build_paper.py     # 一键重建 Word + 导出 PDF + 同步仓库
 │  ├─ viz_style.py          # matplotlib / Plotly 统一配色与样式
 │  └─ templates/            # 15 张模板渲染脚本与高度 meta
 ├─ outputs/
@@ -101,7 +113,8 @@ olist-analysis/
 │  ├─ template_charts.md    # 模板图索引（自动生成）
 │  ├─ template_plan.md      # 30 个模板清单与复现方案
 │  ├─ paper_outline.md      # 论文框架与写作要点
-│  ├─ paper_draft.md        # 论文正文初稿（Markdown）
+│  ├─ paper_draft.md        # 论文正文（Markdown）
+│  ├─ 论文终稿.pdf          # 提交版论文 PDF
 │  └─ 论文框架.docx         # Word 骨架
 ├─ requirements.txt
 ├─ run_all.py
@@ -150,6 +163,10 @@ olist-analysis/
 - 大屏中 RFM、同期群、波士顿矩阵、SARIMA 为离线全量结果，不随筛选变化，页面已注明；
 - 教材模板复现需要教材 xlsx，可用 `TEMPLATE_XLSX="D:/path/to/第二章 图表(前15).xlsx"` 指定；论文生成用 `PAPER_TEMPLATE`、`PAPER_OUT` 指定模板和输出路径。
 
+## 分工说明
+
+本项目由黄丹彤（嘉兴大学数据科学学院，大数据241）独立完成：数据获取与校验、清洗治理、商业模型、可视化图表、Streamlit 大屏、论文撰写与排版均由本人完成。
+
 ## 进度
 
 - [x] 数据源可行性验证与许可确认
@@ -161,8 +178,8 @@ olist-analysis/
 - [x] 10 张真实数据业务图表
 - [x] Streamlit 交互式大屏（≥ 6 组件）
 - [x] 论文框架（Markdown + Word 骨架）
-- [x] 论文正文初稿（3,866 字，含图表、参考文献与 AI 披露）
-- [ ] 论文定稿与最终排版校对（补专业班级/学号/仓库链接）
+- [x] 论文终稿（含图表、参考文献与 AI 披露）
+- [x] 论文定稿：摘要 200—300 字、关键词 5 个、封面补专业班级/学号/组员分工、附录 B 真实仓库链接、附录 C 全量图表索引
 - [ ] 最终公开仓库检查与提交
 
 ## 说明
